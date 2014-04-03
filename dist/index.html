@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html data-ng-app="TimeTracker">
+  <head>
+    <script src="js/angular.min.js"></script>
+    <script src="js/angular-indexedDB.js"></script>
+    <script src="js/app/app.js"></script>
+    <script src="js/app/config.js"></script>
+    <script src="js/app/trackerCtrl.js"></script>
+    <link href="css/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  </head>
+  <body data-ng-controller="TrackerCtrl">
+    <div class="container">
+      <div class="row">
+        <div class="form-inline">
+          <div class="form-group">
+            <input class="form-control" data-ng-model="newTimer.title" /><button class="btn btn-primary" data-ng-click="startNewTimer()" type="button">Start</button>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <table class="table table-hover">
+          <tr data-ng-repeat="timer in timers | orderBy: &#39;started_at&#39;:true">
+            <td>
+              {{timer.title}}
+            </td>
+            <td>
+              {{timer.started_at}}
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

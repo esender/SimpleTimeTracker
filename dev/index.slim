@@ -1,0 +1,24 @@
+doctype html
+html data-ng-app="TimeTracker"
+  head
+    script src="js/angular.min.js"
+    script src="js/angular-indexedDB.js"
+    script src="js/app/app.js"
+    script src="js/app/config.js"
+    script src="js/app/trackerCtrl.js"
+
+    link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css"
+  body data-ng-controller="TrackerCtrl"
+    .container
+      .row
+        .form-inline
+          .form-group
+            input.form-control data-ng-model="newTimer.title"
+            button.btn.btn-primary type="button" data-ng-click="startNewTimer()" Start
+      .row
+        table.table.table-hover
+          tr data-ng-repeat="timer in timers | orderBy: 'started_at':true"
+            td
+              |{{timer.title}}
+            td
+              |{{timer.started_at}}

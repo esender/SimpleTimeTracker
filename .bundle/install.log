@@ -1,0 +1,8 @@
+# Logfile created on 2014-04-03 20:31:34 +0400 by logger.rb/44203
+I, [2014-04-03T20:31:34.063282 #22927]  INFO -- : 0:  coffee-script-source (1.7.0) from /home/esender/.rvm/gems/ruby-2.1.0@global/specifications/coffee-script-source-1.7.0.gemspec
+I, [2014-04-03T20:31:34.063729 #22927]  INFO -- : 0:  execjs (2.0.2) from /home/esender/.rvm/gems/ruby-2.1.0@global/specifications/execjs-2.0.2.gemspec
+I, [2014-04-03T20:31:34.064034 #22927]  INFO -- : 0:  coffee-script (2.2.0) from /home/esender/.rvm/gems/ruby-2.1.0@global/specifications/coffee-script-2.2.0.gemspec
+I, [2014-04-03T20:31:35.772158 #22927]  INFO -- : 0:  temple (0.6.7) from /home/esender/.rvm/gems/ruby-2.1.0@simple_tracker/specifications/temple-0.6.7.gemspec
+I, [2014-04-03T20:31:37.276703 #22927]  INFO -- : 0:  tilt (2.0.1) from /home/esender/.rvm/gems/ruby-2.1.0@simple_tracker/specifications/tilt-2.0.1.gemspec
+I, [2014-04-03T20:31:38.854805 #22927]  INFO -- : 0:  slim (2.0.2) from /home/esender/.rvm/gems/ruby-2.1.0@simple_tracker/specifications/slim-2.0.2.gemspec
+I, [2014-04-03T20:31:38.856394 #22927]  INFO -- : 0:  bundler (1.5.1) from /home/esender/.rvm/gems/ruby-2.1.0@global/specifications/bundler-1.5.1.gemspec
