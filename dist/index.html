@@ -10,15 +10,27 @@
   </head>
   <body data-ng-controller="TrackerCtrl">
     <div class="container">
-      <div class="row">
-        <form data-ng-submit="startNewTimer()">
+      <div data-ng-hide="currentTimer">
+        <div class="row">
+          <form data-ng-submit="startNewTimer()">
+            <div class="col-lg-9">
+              <input class="input-lg form-control col-lg-9" data-ng-model="newTimer.title" />
+            </div>
+            <div class="col-lg-3">
+              <button class="btn btn-primary col-lg-12 btn-lg" data-ng-click="startNewTimer()" type="button">Start</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="bg-info" data-ng-show="currentTimer">
+        <div class="row">
           <div class="col-lg-9">
-            <input class="input-lg form-control col-lg-9" data-ng-model="newTimer.title" />
+            {{currentTimer.title}}
           </div>
           <div class="col-lg-3">
-            <button class="btn btn-primary col-lg-3" data-ng-click="startNewTimer()" type="button">Start</button><span data-ng-bind="seconds"></span>
+            <button class="btn btn-danger col-lg-12 btn-lg" data-ng-click="stopNewTimer()" type="button">Stop</button>
           </div>
-        </form>
+        </div>
       </div>
       <div class="row">
         <table class="table table-hover">
@@ -28,6 +40,9 @@
             </td>
             <td>
               {{timer.started_at}}
+            </td>
+            <td>
+              {{timer.ended_at}}
             </td>
           </tr>
         </table>

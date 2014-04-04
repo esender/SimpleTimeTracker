@@ -10,13 +10,19 @@ html data-ng-app="TimeTracker"
     link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css"
   body data-ng-controller="TrackerCtrl"
     .container
-      .row
-        form data-ng-submit="startNewTimer()"
+      div data-ng-hide="currentTimer"
+        .row
+          form data-ng-submit="startNewTimer()"
+            .col-lg-9
+              input.input-lg.form-control.col-lg-9 data-ng-model="newTimer.title"
+            .col-lg-3
+              button.btn.btn-primary.col-lg-12.btn-lg type="button" data-ng-click="startNewTimer()" Start
+      .bg-info data-ng-show="currentTimer"
+        .row
           .col-lg-9
-            input.input-lg.form-control.col-lg-9 data-ng-model="newTimer.title"
+            |{{currentTimer.title}}
           .col-lg-3
-            button.btn.btn-primary.col-lg-3 type="button" data-ng-click="startNewTimer()" Start
-            span data-ng-bind="seconds"
+            button.btn.btn-danger.col-lg-12.btn-lg type="button" data-ng-click="stopNewTimer()" Stop
       .row
         table.table.table-hover
           tr data-ng-repeat="timer in timers | orderBy: 'started_at':true"
@@ -24,3 +30,5 @@ html data-ng-app="TimeTracker"
               |{{timer.title}}
             td
               |{{timer.started_at}}
+            td
+              |{{timer.ended_at}}
