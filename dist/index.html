@@ -11,11 +11,14 @@
   <body data-ng-controller="TrackerCtrl">
     <div class="container">
       <div class="row">
-        <div class="form-inline">
-          <div class="form-group">
-            <input class="form-control" data-ng-model="newTimer.title" /><button class="btn btn-primary" data-ng-click="startNewTimer()" type="button">Start</button>
+        <form data-ng-submit="startNewTimer()">
+          <div class="col-lg-9">
+            <input class="input-lg form-control col-lg-9" data-ng-model="newTimer.title" />
           </div>
-        </div>
+          <div class="col-lg-3">
+            <button class="btn btn-primary col-lg-3" data-ng-click="startNewTimer()" type="button">Start</button><span data-ng-bind="seconds"></span>
+          </div>
+        </form>
       </div>
       <div class="row">
         <table class="table table-hover">

@@ -1,7 +1,8 @@
 @TimeTracker.controller 'TrackerCtrl',
   [
     '$scope',
-    ($scope) ->
+    '$timeout',
+    ($scope, $timeout) ->
       console.log('1')
       $scope.timers = [
         {
@@ -16,8 +17,16 @@
         }
       ]
 
+      timer = ->
+        $scope.seconds = Math.floor((new Date().getTime() - $scope.currentTimer.started_at.getTime()) / 1000)
+        $timeout timer, 1000
+
       $scope.startNewTimer = () ->
         $scope.newTimer.started_at = new Date
-        $scope.timers.push $scope.newTimer
+        $scope.currentTimer = $scope.newTimer
         $scope.newTimer = {}
+        $timeout(timer, 1000);
+
+
+
   ]
