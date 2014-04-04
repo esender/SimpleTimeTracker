@@ -6,29 +6,39 @@
     <script src="js/app/app.js"></script>
     <script src="js/app/config.js"></script>
     <script src="js/app/trackerCtrl.js"></script>
+    <script src="js/app/time_filter.js"></script>
     <link href="css/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
   </head>
   <body data-ng-controller="TrackerCtrl">
     <div class="container">
-      <div data-ng-hide="currentTimer">
-        <div class="row">
-          <form data-ng-submit="startNewTimer()">
-            <div class="col-lg-9">
-              <input class="input-lg form-control col-lg-9" data-ng-model="newTimer.title" />
+      <div class="timer-form" style="padding: 10px 0;">
+        <div class="wrapper" data-ng-class="{&#39;bg-info&#39;: currentTimer}" style="padding: 5px;">
+          <div data-ng-hide="currentTimer">
+            <div class="row">
+              <form data-ng-submit="startNewTimer()">
+                <div class="col-lg-9">
+                  <input class="input-lg form-control col-lg-9" data-ng-model="newTimer.title" />
+                </div>
+                <div class="col-lg-3">
+                  <button class="btn btn-primary col-lg-12 btn-lg" type="submit">Start</button>
+                </div>
+              </form>
             </div>
-            <div class="col-lg-3">
-              <button class="btn btn-primary col-lg-12 btn-lg" data-ng-click="startNewTimer()" type="button">Start</button>
-            </div>
-          </form>
-        </div>
-      </div>
-      <div class="bg-info" data-ng-show="currentTimer">
-        <div class="row">
-          <div class="col-lg-9">
-            {{currentTimer.title}}
           </div>
-          <div class="col-lg-3">
-            <button class="btn btn-danger col-lg-12 btn-lg" data-ng-click="stopNewTimer()" type="button">Stop</button>
+          <div data-ng-show="currentTimer">
+            <div class="row">
+              <div class="col-lg-7">
+                <h4>
+                  {{currentTimer.title}}
+                </h4>
+              </div>
+              <div class="col-lg-2">
+                {{seconds | msToTime}}
+              </div>
+              <div class="col-lg-3">
+                <button class="btn btn-danger col-lg-12 btn-lg" data-ng-click="stopNewTimer()" type="button">Stop</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -39,10 +49,10 @@
               {{timer.title}}
             </td>
             <td>
-              {{timer.started_at}}
+              {{timer.started_at | date:'dd.MM.yyyy HH:MM'}}
             </td>
             <td>
-              {{timer.ended_at}}
+              {{getMs(timer) | msToTime}}
             </td>
           </tr>
         </table>
