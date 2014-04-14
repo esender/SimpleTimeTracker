@@ -2,39 +2,38 @@ doctype html
 html data-ng-app="TimeTracker"
   head
     script src="js/angular.min.js"
-    script src="js/angular-indexedDB.js"
+    script src="js/indexeddb.js"
+    script src="js/underscore.js"
     script src="js/app/app.js"
     script src="js/app/config.js"
     script src="js/app/trackerCtrl.js"
-    script src="js/app/time_filter.js"
+    script src="js/app/timeFilter.js"
+    script src="js/app/timerSrv.js"
 
     link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css"
   body data-ng-controller="TrackerCtrl"
     .container
       .timer-form style="padding: 10px 0;"
-        .wrapper style="padding: 5px;" data-ng-class="{'bg-info': currentTimer}"
-          div data-ng-hide="currentTimer"
+        .wrapper style="padding: 5px;" data-ng-class="{'bg-info': newTimer.started_at}"
+          div
             .row
-              form data-ng-submit="startNewTimer()"
+              form data-ng-submit="toggleTracking()" novalidate="novalidate"
                 .col-lg-9
-                  input.input-lg.form-control.col-lg-9 data-ng-model="newTimer.title"
-                .col-lg-3
-                  button.btn.btn-primary.col-lg-12.btn-lg type="submit" Start
-          div data-ng-show="currentTimer"
-            .row
-              .col-lg-7
-                h4
-                  |{{currentTimer.title}}
-              .col-lg-2
-                |{{seconds | msToTime}}
-              .col-lg-3
-                button.btn.btn-danger.col-lg-12.btn-lg type="button" data-ng-click="stopNewTimer()" Stop
+                  input.input-lg.form-control.col-lg-9 placeholder="Input your task..." required="required" data-ng-model="newTimer.title"
+                .col-lg-1
+                  |{{seconds | msToTime}}
+                .col-lg-2
+                  button.btn.btn-primary.col-lg-12.btn-lg type="submit" data-ng-hide="newTimer.started_at" Начать
+                  button.btn.btn-danger.col-lg-12.btn-lg type="submit" data-ng-show="newTimer.started_at" Стоп
+
       .row
-        table.table.table-hover
-          tr data-ng-repeat="timer in timers | orderBy: 'started_at':true"
-            td
-              |{{timer.title}}
-            td
-              |{{timer.started_at | date:'dd.MM.yyyy HH:MM'}}
-            td
-              | {{getMs(timer) | msToTime}}
+        div data-ng-repeat="timers in timersByDate"
+          | Data {{timers[0].started_at.getDate()}}
+          table.table.table-hover
+            tr data-ng-repeat="timer in timers | orderBy: 'started_at':true"
+              td
+                |{{timer.title}}
+              td
+                |{{timer.started_at | date:'dd.MM.yyyy HH:mm'}}
+              td
+                | {{getMs(timer) | msToTime}}

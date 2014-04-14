@@ -1,3 +1,3 @@
 'use strict'
 
-@TimeTracker = angular.module('TimeTracker', [])
+@TimeTracker = angular.module('TimeTracker', ['xc.indexedDB'])

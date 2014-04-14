@@ -1,27 +1,37 @@
 (function() {
   this.TimeTracker.controller('TrackerCtrl', [
-    '$scope', '$timeout', function($scope, $timeout) {
+    '$scope', '$timeout', 'TimerSrv', function($scope, $timeout, TimerSrv) {
       var nextTimer, timer;
       timer = null;
-      $scope.timers = [];
+      TimerSrv.getAll().then(function(data) {
+        return $scope.timersByDate = _.groupBy(data, function(timer) {
+          return timer.started_at.getDate();
+        });
+      });
       nextTimer = function() {
-        $scope.seconds = new Date().getTime() - $scope.currentTimer.started_at.getTime();
+        $scope.seconds = new Date().getTime() - $scope.newTimer.started_at.getTime();
         return timer = $timeout(nextTimer, 1000);
       };
-      $scope.startNewTimer = function() {
-        $scope.newTimer.started_at = new Date();
-        $scope.currentTimer = $scope.newTimer;
-        $scope.newTimer = {};
-        return timer = $timeout(nextTimer, 1000);
-      };
-      $scope.stopNewTimer = function() {
-        $scope.currentTimer.ended_at = new Date();
-        $scope.timers.push($scope.currentTimer);
-        $scope.currentTimer = null;
-        return $timeout.cancel(timer);
+      $scope.toggleTracking = function() {
+        console.log('in tracking');
+        console.log($scope.timers);
+        if ($scope.newTimer.started_at) {
+          $scope.newTimer.ended_at = new Date();
+          $scope.timers.push($scope.newTimer);
+          TimerSrv.update($scope.newTimer);
+          $scope.newTimer = {};
+          $timeout.cancel(timer);
+          return $scope.seconds = 0;
+        } else {
+          $scope.newTimer.started_at = new Date();
+          $scope.newTimer = TimerSrv.create($scope.newTimer);
+          return timer = $timeout(nextTimer, 1000);
+        }
       };
       return $scope.getMs = function(timer) {
-        return timer.ended_at.getTime() - timer.started_at.getTime();
+        if (timer.ended_at) {
+          return timer.ended_at.getTime() - timer.started_at.getTime();
+        }
       };
     }
   ]);

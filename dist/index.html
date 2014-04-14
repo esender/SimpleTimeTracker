@@ -2,60 +2,53 @@
 <html data-ng-app="TimeTracker">
   <head>
     <script src="js/angular.min.js"></script>
-    <script src="js/angular-indexedDB.js"></script>
+    <script src="js/indexeddb.js"></script>
+    <script src="js/underscore.js"></script>
     <script src="js/app/app.js"></script>
     <script src="js/app/config.js"></script>
     <script src="js/app/trackerCtrl.js"></script>
-    <script src="js/app/time_filter.js"></script>
+    <script src="js/app/timeFilter.js"></script>
+    <script src="js/app/timerSrv.js"></script>
     <link href="css/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
   </head>
   <body data-ng-controller="TrackerCtrl">
     <div class="container">
       <div class="timer-form" style="padding: 10px 0;">
-        <div class="wrapper" data-ng-class="{&#39;bg-info&#39;: currentTimer}" style="padding: 5px;">
-          <div data-ng-hide="currentTimer">
+        <div class="wrapper" data-ng-class="{&#39;bg-info&#39;: newTimer.started_at}" style="padding: 5px;">
+          <div>
             <div class="row">
-              <form data-ng-submit="startNewTimer()">
+              <form data-ng-submit="toggleTracking()" novalidate="novalidate">
                 <div class="col-lg-9">
-                  <input class="input-lg form-control col-lg-9" data-ng-model="newTimer.title" />
+                  <input class="input-lg form-control col-lg-9" data-ng-model="newTimer.title" placeholder="Input your task..." required="required" />
                 </div>
-                <div class="col-lg-3">
-                  <button class="btn btn-primary col-lg-12 btn-lg" type="submit">Start</button>
+                <div class="col-lg-1">
+                  {{seconds | msToTime}}
+                </div>
+                <div class="col-lg-2">
+                  <button class="btn btn-primary col-lg-12 btn-lg" data-ng-hide="newTimer.started_at" type="submit">Начать</button><button class="btn btn-danger col-lg-12 btn-lg" data-ng-show="newTimer.started_at" type="submit">Стоп</button>
                 </div>
               </form>
-            </div>
-          </div>
-          <div data-ng-show="currentTimer">
-            <div class="row">
-              <div class="col-lg-7">
-                <h4>
-                  {{currentTimer.title}}
-                </h4>
-              </div>
-              <div class="col-lg-2">
-                {{seconds | msToTime}}
-              </div>
-              <div class="col-lg-3">
-                <button class="btn btn-danger col-lg-12 btn-lg" data-ng-click="stopNewTimer()" type="button">Stop</button>
-              </div>
             </div>
           </div>
         </div>
       </div>
       <div class="row">
-        <table class="table table-hover">
-          <tr data-ng-repeat="timer in timers | orderBy: &#39;started_at&#39;:true">
-            <td>
-              {{timer.title}}
-            </td>
-            <td>
-              {{timer.started_at | date:'dd.MM.yyyy HH:MM'}}
-            </td>
-            <td>
-              {{getMs(timer) | msToTime}}
-            </td>
-          </tr>
-        </table>
+        <div data-ng-repeat="timers in timersByDate">
+          Data {{timers[0].started_at.getDate()}}
+          <table class="table table-hover">
+            <tr data-ng-repeat="timer in timers | orderBy: &#39;started_at&#39;:true">
+              <td>
+                {{timer.title}}
+              </td>
+              <td>
+                {{timer.started_at | date:'dd.MM.yyyy HH:mm'}}
+              </td>
+              <td>
+                {{getMs(timer) | msToTime}}
+              </td>
+            </tr>
+          </table>
+        </div>
       </div>
     </div>
   </body>

@@ -13,8 +13,9 @@ module.exports = (grunt) ->
       main:
         files: [
           {expand: true, cwd: 'lib/angular/', src: ['angular.min.js'], dest: 'dist/js/'}
-          {expand: true, cwd: 'lib/angular-indexedDB/', src: ['angular-indexedDB.js'], dest: 'dist/js/'}
+          {expand: true, cwd: 'lib/angularjs-indexedDB/src/', src: ['indexeddb.js'], dest: 'dist/js/'}
           {expand: true, cwd: 'lib/bootstrap/dist/', src: ['css/*.min.css', 'fonts/*'], dest: 'dist/css/bootstrap/'}
+          {expand: true, cwd: 'lib/underscore/', src: ['underscore.js'], dest: 'dist/js/'}
         ]
 
     coffee:

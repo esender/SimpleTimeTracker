@@ -2,28 +2,38 @@
   [
     '$scope',
     '$timeout',
-    ($scope, $timeout) ->
+    'TimerSrv'
+    ($scope, $timeout, TimerSrv) ->
       timer = null
-      $scope.timers = []
+
+      TimerSrv.getAll().then (data) ->
+        $scope.timersByDate = _.groupBy data, (timer) ->
+          timer.started_at.getDate()
 
       nextTimer = ->
-        $scope.seconds = (new Date().getTime() - $scope.currentTimer.started_at.getTime())
+        $scope.seconds = (new Date().getTime() - $scope.newTimer.started_at.getTime())
         timer = $timeout nextTimer, 1000
 
-      $scope.startNewTimer = () ->
-        $scope.newTimer.started_at = new Date()
-        $scope.currentTimer = $scope.newTimer
-        $scope.newTimer = {}
-        timer = $timeout nextTimer, 1000
+      $scope.toggleTracking = ->
+        console.log('in tracking')
+        console.log($scope.timers)
 
-      $scope.stopNewTimer = () ->
-        $scope.currentTimer.ended_at = new Date()
-        $scope.timers.push($scope.currentTimer)
-        $scope.currentTimer = null
-        $timeout.cancel timer
+        if $scope.newTimer.started_at
+          $scope.newTimer.ended_at = new Date()
+          $scope.timers.push($scope.newTimer)
+          TimerSrv.update($scope.newTimer)
+          $scope.newTimer = {}
+          $timeout.cancel timer
+          $scope.seconds = 0
+        else
+          $scope.newTimer.started_at = new Date()
+          $scope.newTimer = TimerSrv.create($scope.newTimer)
+
+          timer = $timeout nextTimer, 1000
 
       $scope.getMs = (timer) ->
-        timer.ended_at.getTime() - timer.started_at.getTime()
+        if timer.ended_at
+          timer.ended_at.getTime() - timer.started_at.getTime()
 
 
 
